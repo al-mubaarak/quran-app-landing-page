@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nūr — Qur'an App | Read, Listen, Memorize</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B1512; --bg2:#0F1F1A; --card:#142822; --line:rgba(216,178,90,.18);
+  --cream:#F7F2E7; --muted:#A8B8B0; --gold:#D8B25A; --gold2:#F0D493;
+  --green:#1DB584; --green-d:#0E7A58; --radius:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--cream);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.pattern{position:fixed;inset:0;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23D8B25A' stroke-width='1'%3E%3Cpath d='M60 10l10 20 20 10-20 10-10 20-10-20-20-10 20-10z'/%3E%3Ccircle cx='60' cy='60' r='38'/%3E%3C/g%3E%3C/svg%3E");}
+/* NAV */
+nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(11,21,18,.82);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:.2px}
+.mark{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--green),#0a4d3a);display:grid;place-items:center;font-family:Amiri,serif;font-size:22px;color:var(--gold2);border:1px solid var(--line)}
+.links{display:flex;gap:26px;color:var(--muted);font-size:14.5px}
+.links a:hover{color:var(--cream)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1405;font-weight:700;padding:11px 20px;border-radius:12px;border:0;cursor:pointer;font-size:15px}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn:hover{filter:brightness(1.06)}
+/* HERO */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:72px 0 48px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:rgba(216,178,90,.1);color:var(--gold2);padding:7px 13px;border-radius:100px;font-size:13px;font-weight:600}
+h1{font-family:Fraunces,serif;font-size:clamp(40px,5.4vw,64px);line-height:1.05;margin:20px 0 14px;font-weight:600}
+h1 em{font-style:normal;color:var(--gold2)}
+.ar{font-family:Amiri,serif;font-size:28px;color:var(--gold2);opacity:.95}
+.sub{color:var(--muted);font-size:17.5px;max-width:52ch;margin:14px 0 26px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.store{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.store a{border:1px solid var(--line);background:#101f1b;border-radius:12px;padding:9px 14px;font-size:13.5px;display:flex;gap:9px;align-items:center;color:var(--cream)}
+.trust{display:flex;gap:18px;margin-top:22px;color:var(--muted);font-size:13.5px;flex-wrap:wrap}
+.trust b{color:var(--cream)}
+/* PHONE */
+.phone-stage{position:relative;display:flex;justify-content:center}
+.glow{position:absolute;width:420px;height:420px;background:radial-gradient(circle,rgba(29,181,132,.32),transparent 65%);filter:blur(10px)}
+.phone{position:relative;width:300px;height:620px;background:#08110e;border-radius:44px;border:1px solid #2a3f38;padding:12px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.screen{background:linear-gradient(180deg,#12281f,#0b1713);border-radius:34px;height:100%;overflow:hidden;display:flex;flex-direction:column;padding:18px 16px 14px}
+.notch{width:110px;height:24px;background:#000;border-radius:20px;margin:0 auto 12px}
+.app-head{display:flex;justify-content:space-between;align-items:center}
+.streak{background:rgba(216,178,90,.14);border:1px solid var(--line);color:var(--gold2);font-size:12px;font-weight:700;padding:5px 10px;border-radius:100px}
+.ayah-card{margin-top:14px;background:linear-gradient(135deg,#1a3a2f,#0f211b);border:1px solid var(--line);border-radius:18px;padding:18px 14px;text-align:center}
+.ayah-card .ar-big{font-family:Amiri,serif;font-size:30px;line-height:2}
+.ayah-card p{font-size:12.5px;color:var(--muted);margin-top:8px}
+.player{margin-top:12px;background:#0d1b16;border:1px solid var(--line);border-radius:16px;padding:12px}
+.bar{height:5px;background:#22352e;border-radius:10px;overflow:hidden;margin:10px 0 6px}
+.bar i{display:block;width:42%;height:100%;background:linear-gradient(90deg,var(--green),var(--gold))}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+.controls{display:flex;justify-content:center;gap:14px;margin-top:8px}
+.play{width:44px;height:44px;border-radius:50%;background:var(--gold);color:#1a1405;display:grid;place-items:center;font-size:18px;font-weight:800}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.mini{background:#0e1e19;border:1px solid var(--line);border-radius:14px;padding:11px;font-size:12px}
+.mini b{display:block;font-size:12.5px}
+.float{position:absolute;background:rgba(20,40,34,.92);border:1px solid var(--line);backdrop-filter:blur(8px);border-radius:14px;padding:10px 13px;font-size:12.5px;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.f1{left:-8px;top:120px}.f2{right:-6px;bottom:140px}
+/* SECTIONS */
+section{padding:56px 0}
+.kicker{color:var(--green);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12px}
+h2{font-family:Fraunces,serif;font-size:clamp(28px,3.6vw,42px);line-height:1.12;margin:10px 0 12px}
+.lead{color:var(--muted);max-width:62ch}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+.card{background:linear-gradient(180deg,var(--card),#101f1b);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.card .ico{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:21px;background:rgba(216,178,90,.12);border:1px solid var(--line);margin-bottom:14px}
+.card h3{font-size:17px;margin-bottom:8px}
+.card p{font-size:14px;color:var(--muted)}
+.card ul{list-style:none;margin-top:12px;font-size:13px;color:var(--gold2)}
+.card li{padding:5px 0;border-top:1px dashed rgba(216,178,90,.2)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.step{background:#0e1e19;border:1px solid var(--line);border-radius:18px;padding:22px;position:relative}
+.step span{font-size:12px;font-weight:800;color:var(--gold);letter-spacing:.12em}
+.verse{background:linear-gradient(135deg,#143229,#0c1a15);border:1px solid var(--line);border-radius:24px;padding:44px 32px;text-align:center;position:relative;overflow:hidden}
+.verse .ar-big{font-family:Amiri,serif;font-size:clamp(30px,4vw,46px);line-height:1.9}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px;text-align:center}
+.stat{border:1px solid var(--line);border-radius:16px;padding:18px;background:#0e1e19}
+.stat b{font-size:26px;display:block;color:var(--gold2)}
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.q{background:#f7f2e7;color:#15211c;border-radius:18px;padding:22px;font-size:14.5px}
+.q b{display:block;margin-top:12px;font-size:13px}
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+.faq details{background:#0e1e19;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.faq summary{cursor:pointer;font-weight:600}
+.faq p{color:var(--muted);font-size:14px;margin-top:8px}
+.final{background:linear-gradient(135deg,#1DB584,#0a4d3a 60%,#3a2f0e);border-radius:26px;padding:52px 32px;text-align:center;border:1px solid var(--line)}
+footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--muted);font-size:13.5px}
+.foot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr}.links{display:none}
+  .grid4,.steps,.quotes{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.faq{grid-template-columns:1fr}
+  .f1{left:0}.f2{right:0}
+}
+@media(max-width:560px){.grid4,.steps,.quotes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="pattern"></div>
+<nav><div class="wrap nav-in">
+  <div class="brand"><span class="mark">ن</span> Nūr</div>
+  <div class="links"><a href="#features">Features</a><a href="#how">How it works</a><a href="#verse">Daily verse</a><a href="#reviews">Reviews</a><a href="#faq">FAQ</a></div>
+  <a class="btn" href="#download">Get the app</a>
+</div></nav>
+
+<div class="wrap">
+<header class="hero">
+  <div>
+    <span class="eyebrow">✦ Trusted by 2M+ readers · 4.9 ★ · No ads, no tracking</span>
+    <h1>The Qur'an, beautifully <em>within reach.</em></h1>
+    <div class="ar">اِهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ</div>
+    <p class="sub">Read with clarity, listen to world-class reciters, and build a lasting daily habit. Offline mushaf, word-by-word translation, memorization loops, prayer times & Qibla — calm by design, free forever.</p>
+    <div class="cta-row">
+      <a class="btn" href="#download">Download free</a>
+      <a class="btn ghost" href="#how">See how it works</a>
+    </div>
+    <div class="store">
+      <a href="#download"> &nbsp;App Store · 4.9</a>
+      <a href="#download">▶ &nbsp;Google Play · 4.8</a>
+      <a href="#download">◍ &nbsp;Scan QR to install</a>
+    </div>
+    <div class="trust"><span><b>Last Read</b> auto-bookmark</span><span><b>100%</b> offline</span><span><b>12</b> reciters</span><span><b>40+</b> translations</span></div>
+  </div>
+  <div class="phone-stage">
+    <div class="glow"></div>
+    <div class="float f1">🔥 27-day streak<br><small style="color:var(--muted)">Al-Baqarah 2:152</small></div>
+    <div class="float f2">🕌 Maghrib 6:42 PM<br><small style="color:var(--muted)">Qibla 58° NE</small></div>
+    <div class="phone"><div class="screen">
+      <div class="notch"></div>
+      <div class="app-head"><div><div style="font-size:12px;color:var(--muted)">As-salāmu ʿalaykum</div><div style="font-weight:700">Continue reading</div></div><div class="streak">✦ 27</div></div>
+      <div class="ayah-card"><div style="font-size:11px;color:var(--gold);letter-spacing:.14em">AL-FATIHA · 1:5</div><div class="ar-big">اِهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ</div><p>"Guide us along the Straight Path"</p></div>
+      <div class="player"><div class="row"><b style="color:var(--cream)">Mishary Alafasy</b><span>1.0x · Loop A</span></div><div class="bar"><i></i></div><div class="row"><span>0:42</span><span>2:18</span></div><div class="controls"><span style="font-size:20px">⏮</span><span class="play">▶</span><span style="font-size:20px">⏭</span></div></div>
+      <div class="mini-grid"><div class="mini"><b>📖 Last Read</b>Yā-Sīn 36:58</div><div class="mini"><b>🧠 Memorize</b>12 ayahs this week</div></div>
+    </div></div>
+  </div>
+</header>
+
+<section id="features">
+  <div class="kicker">Features</div>
+  <h2>Everything for your daily connection, nothing that distracts.</h2>
+  <p class="lead">Pattern借鉴: product-first landing (outcome + real screen + badges) · calm green/sand system from Islamic app kits · habit loop from Quranly (goal → streak → reminder).</p>
+  <div class="grid4">
+    <div class="card"><div class="ico">📖</div><h3>Read in peace</h3><p>Uthmani mushaf, adjustable fonts, word-by-word, tafsir footnotes. Night mode & sepia.</p><ul><li>Offline full Qur'an</li><li>40+ translations</li><li>Last Read bookmark</li></ul></div>
+    <div class="card"><div class="ico">🎧</div><h3>Listen & repeat</h3><p>Apple-Music-style player. Scrub by word, slow to 0.5x, loop verses for hifz.</p><ul><li>12 renowned reciters</li><li>Verse / page repeat</li><li>Sleep timer</li></ul></div>
+    <div class="card"><div class="ico">🧠</div><h3>Memorize gently</h3><p>Daily goal, streaks, blurred-word test and revision reminders at your pace.</p><ul><li>Smart revision plan</li><li>Progress charts</li><li>Family leaderboard</li></ul></div>
+    <div class="card"><div class="ico">🕌</div><h3>Pray on time</h3><p>Accurate prayer times, Qibla compass, widgets & gentle adhan reminders.</p><ul><li>Home-screen widgets</li><li>Qibla + Hijri calendar</li><li>Du'a collections</li></ul></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="kicker">How it works</div>
+  <h2>Three steps, five minutes a day.</h2>
+  <div class="steps">
+    <div class="step"><span>01 — OPEN</span><h3 style="margin:8px 0">Pick up where you left off</h3><p class="lead" style="font-size:14.5px">Last Read + daily verse greet you. One tap resumes exact ayah, translation and audio position.</p></div>
+    <div class="step"><span>02 — ENGAGE</span><h3 style="margin:8px 0">Read or listen deeply</h3><p class="lead" style="font-size:14.5px">Tap a word for meaning, hold to pause audio, loop hard verses. Built for focus, not feeds.</p></div>
+    <div class="step"><span>03 — GROW</span><h3 style="margin:8px 0">Keep the streak alive</h3><p class="lead" style="font-size:14.5px">Set a 5-ayah goal, get a kind reminder at Maghrib, watch your khatma progress bloom.</p></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>2M+</b>downloads</div>
+    <div class="stat"><b>4.9★</b>128k reviews</div>
+    <div class="stat"><b>38M</b>ayahs memorized</div>
+    <div class="stat"><b>0</b>ads · 0 trackers</div>
+  </div>
+</section>
+
+<section id="verse">
+  <div class="verse">
+    <div class="kicker" style="color:var(--gold2)">Verse of the day · Ar-Rahman 55:13</div>
+    <div class="ar-big" style="margin:14px 0">فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ</div>
+    <p style="color:var(--cream);font-size:18px;font-family:Fraunces,serif">"So which of your Lord's favors will you deny?"</p>
+    <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn" href="#download">Reflect in app</a><a class="btn ghost" href="#download">Share verse</a></div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="kicker">Loved worldwide</div>
+  <h2>Calm that people feel.</h2>
+  <div class="quotes">
+    <div class="q">“Finally a Qur'an app with no ads. The loop-repeat made memorizing Juz 'Amma possible for my 7-year-old.”<b>— Umm Maryam · ★★★★★ · Cairo</b></div>
+    <div class="q">“The player is like Apple Music for recitation. Scrubbing by word to perfect tajwid is genius.”<b>— Bilal K. · ★★★★★ · London</b></div>
+    <div class="q">“Streak + gentle Maghrib reminder got me to 60 days straight. My longest habit ever.”<b>— Aisha R. · ★★★★★ · Kuala Lumpur</b></div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="kicker">FAQ</div>
+  <h2>Simple, honest answers.</h2>
+  <div class="faq">
+    <details open><summary>Is Nūr really free?</summary><p>Yes. Reading, audio, prayer times and Qibla are free forever. Nūr+ ($2.99/mo) adds advanced hifz analytics and family plans — no ads either way.</p></details>
+    <details><summary>Does it work offline?</summary><p>Fully. Download mushaf, translation and reciter once — then read and listen on a plane, in the masjid basement, anywhere.</p></details>
+    <details><summary>Which translations & reciters?</summary><p>Saheeh International, Khattab, Yusuf Ali + 40 more. Mishary Alafasy, AbdulBaset, Minshawi, Sudais and 8 others.</p></details>
+    <details><summary>Privacy?</summary><p>No account needed, no tracking, no data sale. Your reading stays on your device. Export/delete anytime.</p></details>
+  </div>
+</section>
+
+<section id="download">
+  <div class="final">
+    <div class="ar" style="font-size:34px">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+    <h2 style="color:#fff">Begin your daily Nūr today.</h2>
+    <p style="color:rgba(255,255,255,.82);max-width:52ch;margin:0 auto 22px">Join 2M+ Muslims building a calmer, consistent Qur'an habit. Free to download, ready offline in 30 seconds.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn" style="background:#fff" href="#"> Download on App Store</a><a class="btn" style="background:#fff" href="#">▶ Get it on Google Play</a></div>
+    <p style="margin-top:14px;font-size:13px;color:rgba(255,255,255,.75)">Free forever · No ads · Cancel Nūr+ anytime</p>
+  </div>
+</section>
+</div>
+
+<footer><div class="wrap foot">
+  <div><b style="color:var(--cream)">Nūr — Qur'an App</b><br>Made with ihsan · Support · Privacy · Terms</div>
+  <div>Design notes: hero + phone mockup, Last Read / streak / player patterns from top Qur'an apps; calm emerald-sand system; product-first + social-proof + 3-step workflow landing structure.</div>
+</div></footer>
+</body>
+</html>
